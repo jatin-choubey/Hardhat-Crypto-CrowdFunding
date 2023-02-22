@@ -19,10 +19,9 @@ module.exports = {
         hardhat: {},
         goerli: {
             url: GOERLI_RPC_URL,
-            accounts: [
-                /*PRIVATE_KEY*/
-            ],
-            chainId: 5
+            accounts: [PRIVATE_KEY],
+            chainId: 5,
+            blockConfirmations: 6
         },
         localhost: {
             url: "http://localhost:8545",

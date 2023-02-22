@@ -13,7 +13,7 @@
 // const helperConfig = require("../helper-hardhat-config")
 // const networkConfig = helperConfig.networkConfig
 const { networkConfig, developmentChains } = require("../helper-hardhat-config") // This line is same as above two lines (Means we are extracting networkConfig from hekper-hardhat-config.js)
-
+const { verify } = require("../utils/verify")
 const { network } = require("hardhat")
 
 module.exports = async hre => {
@@ -28,15 +28,24 @@ module.exports = async hre => {
     // const ethUsdPriceFeedAddress = networkConfig[chainID]["ethUsdPriceFeed"]
     let ethUsdPriceFeedAddress
     if (developmentChains.includes(network.name)) {
-        const ethUsdAggregator = deployments.get("MockV3Aggregator")
-        ethUsdPriceFeedAddress = ethUsdAggregator.address1
+        const ethUsdAggregator = await deployments.get("MockV3Aggregator")
+        ethUsdPriceFeedAddress = ethUsdAggregator.address
     } else {
         ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"]
     }
+    const args = [ethUsdPriceFeedAddress]
     const FundMe = await deploy("FundMe", {
         from: deployer,
-        args: [ethUsdPriceFeedAddress],
-        log: true // This will automatically spit out the neccessary log messages without us typing the Console.log
+        args: args,
+        log: true, // This will automatically spit out the neccessary log messages without us typing the Console.log
+        waitConfirmations: network.config.blockConfirmations || 1
     })
+    if (
+        !developmentChains.includes(network.name) &&
+        process.env.ETHERSCAN_API_KEY
+    ) {
+        await verify(FundMe.address, args)
+    }
 }
+
 module.exports.tags = ["all", "fundme"]
