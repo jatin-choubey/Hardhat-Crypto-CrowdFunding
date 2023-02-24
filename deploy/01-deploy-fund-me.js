@@ -40,6 +40,7 @@ module.exports = async hre => {
         log: true, // This will automatically spit out the neccessary log messages without us typing the Console.log
         waitConfirmations: network.config.blockConfirmations || 1
     })
+    // if Not on the Local Network, then we need to verify the contract
     if (
         !developmentChains.includes(network.name) &&
         process.env.ETHERSCAN_API_KEY

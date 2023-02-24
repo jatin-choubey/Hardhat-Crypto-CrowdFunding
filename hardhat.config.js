@@ -43,7 +43,7 @@ module.exports = {
         noColors: true, // The text file gets messed up if we enable colours
         coinmarketcap: COINMARKETCAP_API_KEY,
         token:
-            "MATIC" /*If we want to deploy our contract to Polygon, we use the token MATIC
+            "ETH" /*If we want to deploy our contract to Polygon, we use the token MATIC
                         which is the Crypto running on Polygon Network.
 
                         Similary if we want to deploy our Contract to
