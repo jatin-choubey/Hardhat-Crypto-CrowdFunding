@@ -1,4 +1,4 @@
-# Sample Hardhat Project
+# A HardHat based Smart Contract to Fund and Withdraw Ether.
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
 
